@@ -9,31 +9,36 @@ export function CuratedJourneys() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
         >
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-8">
             <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
               className="block"
             >
               Curated Journeys &
             </motion.span>
             <motion.span
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, delay: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
               className="block"
             >
               Exc
               <motion.span
                 initial={{ opacity: 1 }}
-                animate={{ opacity: [1, 0.3, 1] }}
-                transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+                animate={{ opacity: [1, 0.4, 1] }}
+                transition={{
+                  duration: 4,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                  repeatDelay: 0.5,
+                }}
                 className="inline-block"
               >
                 lusive Desti
@@ -45,16 +50,15 @@ export function CuratedJourneys() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, delay: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
             className="relative"
           >
-            {/* Animated line before text */}
             <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.8 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.5, delay: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
               className="h-[2px] w-32 bg-gradient-to-r from-[#FFD700] to-transparent mb-6 origin-left"
             />
 
@@ -67,21 +71,29 @@ export function CuratedJourneys() {
               </span>
             </p>
 
-            {/* Decorative animated elements */}
             <motion.div
               animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.6, 0.3],
+                scale: [1, 1.15, 1],
+                opacity: [0.2, 0.4, 0.2],
               }}
-              transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+              transition={{
+                duration: 6,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+              }}
               className="absolute -top-10 -right-10 w-40 h-40 bg-[#00D9FF]/10 rounded-full blur-3xl"
             />
             <motion.div
               animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.2, 0.5, 0.2],
+                scale: [1, 1.2, 1],
+                opacity: [0.15, 0.35, 0.15],
               }}
-              transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 1 }}
+              transition={{
+                duration: 7,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "easeInOut",
+                delay: 2,
+              }}
               className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FFD700]/10 rounded-full blur-3xl"
             />
           </motion.div>

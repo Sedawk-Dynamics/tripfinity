@@ -37,13 +37,13 @@ export function Header() {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" className="relative z-10">
+          <Link href="/" className="relative z-10 shrink-0">
             <Image
               src="/images/image.png"
               alt="TripInfinity Travels"
-              width={360}
-              height={120}
-              className="h-24 w-auto brightness-200"
+              width={240}
+              height={80}
+              className="h-16 w-auto brightness-200"
             />
           </Link>
 

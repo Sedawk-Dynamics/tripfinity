@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Calendar, Plane, Users, Search, ArrowLeftRight } from "lucide-react"
@@ -24,17 +24,28 @@ export function FlightSearch() {
   const [cabinClass, setCabinClass] = useState("economy")
   const [directOnly, setDirectOnly] = useState(false)
 
+  useEffect(() => {
+    if (tripType === "oneway") {
+      setReturnDate("")
+    }
+  }, [tripType])
+
   const handleSearch = () => {
     const params = new URLSearchParams({
       from: fromCity,
       to: toCity,
       depart: departDate,
-      ...(tripType === "return" && returnDate ? { return: returnDate } : {}),
       passengers: passengers.toString(),
       class: cabinClass,
       airline,
       directOnly: directOnly.toString(),
+      tripType,
     })
+
+    if (tripType === "return" && returnDate) {
+      params.append("return", returnDate)
+    }
+
     router.push(`/search?${params.toString()}`)
   }
 
@@ -45,64 +56,60 @@ export function FlightSearch() {
   }
 
   return (
-    <section className="relative -mt-20 z-30 pb-16">
+    <section className="relative -mt-20 z-30 pb-12">
       <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          <Card className="backdrop-blur-2xl bg-black/40 border border-white/10 shadow-2xl rounded-3xl p-8 md:p-10 max-w-6xl mx-auto relative overflow-hidden">
+          <Card className="backdrop-blur-xl bg-white border border-gray-200 shadow-2xl rounded-2xl p-6 md:p-8 max-w-5xl mx-auto relative overflow-hidden">
             {/* Decorative gradient overlays */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-gold/10 to-transparent rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-neon-blue/10 to-transparent rounded-full blur-3xl" />
+            <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-gold/5 to-transparent rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-neon-blue/5 to-transparent rounded-full blur-3xl" />
 
             <div className="relative z-10">
-              {/* Trip Type Selection */}
-              <div className="flex gap-6 mb-8">
+              <div className="flex gap-6 mb-6">
                 <RadioGroup value={tripType} onValueChange={(value: any) => setTripType(value)} className="flex gap-6">
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="return" id="return" className="border-white/40 text-gold" />
-                    <Label htmlFor="return" className="text-white cursor-pointer font-semibold text-base">
+                    <RadioGroupItem value="return" id="return" className="border-gray-400 text-gold" />
+                    <Label htmlFor="return" className="text-gray-900 cursor-pointer font-semibold text-sm">
                       Return
                     </Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="oneway" id="oneway" className="border-white/40 text-gold" />
-                    <Label htmlFor="oneway" className="text-white cursor-pointer font-semibold text-base">
+                    <RadioGroupItem value="oneway" id="oneway" className="border-gray-400 text-gold" />
+                    <Label htmlFor="oneway" className="text-gray-900 cursor-pointer font-semibold text-sm">
                       One Way
                     </Label>
                   </div>
                 </RadioGroup>
               </div>
 
-              {/* City Selection Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                {/* From City */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="space-y-2">
-                  <Label className="text-white/90 text-sm font-medium">From</Label>
+                  <Label className="text-gray-700 text-xs font-medium">From</Label>
                   <Select value={fromCity} onValueChange={setFromCity}>
-                    <SelectTrigger className="h-14 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all rounded-xl backdrop-blur-sm">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gold/20 flex items-center justify-center">
-                          <Plane className="h-5 w-5 text-gold" />
+                    <SelectTrigger className="h-12 bg-gray-50 border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all rounded-xl">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center">
+                          <Plane className="h-4 w-4 text-gold" />
                         </div>
-                        <SelectValue placeholder="Select departure city" className="text-white" />
+                        <SelectValue placeholder="Select departure city" className="text-gray-900 text-sm" />
                       </div>
                     </SelectTrigger>
-                    <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20 max-h-[300px]">
+                    <SelectContent className="bg-white border-gray-300 max-h-[300px]">
                       {CITIES.map((city) => (
                         <SelectItem
                           key={city.code}
                           value={city.code}
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                          className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100"
                         >
-                          <div className="flex flex-col py-1">
-                            <span className="font-semibold">
-                              {city.name} ({city.code})
-                            </span>
-                            <span className="text-xs text-white/60">{city.country}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-gold">{city.code}</span>
+                            <span>—</span>
+                            <span className="font-medium">{city.name}</span>
                           </div>
                         </SelectItem>
                       ))}
@@ -110,30 +117,28 @@ export function FlightSearch() {
                   </Select>
                 </div>
 
-                {/* To City with Swap Button */}
                 <div className="space-y-2 relative">
-                  <Label className="text-white/90 text-sm font-medium">To</Label>
+                  <Label className="text-gray-700 text-xs font-medium">To</Label>
                   <Select value={toCity} onValueChange={setToCity}>
-                    <SelectTrigger className="h-14 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all rounded-xl backdrop-blur-sm">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-neon-blue/20 flex items-center justify-center">
-                          <Plane className="h-5 w-5 text-neon-blue rotate-90" />
+                    <SelectTrigger className="h-12 bg-gray-50 border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all rounded-xl">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-neon-blue/20 flex items-center justify-center">
+                          <Plane className="h-4 w-4 text-neon-blue rotate-90" />
                         </div>
-                        <SelectValue placeholder="Select arrival city" className="text-white" />
+                        <SelectValue placeholder="Select arrival city" className="text-gray-900 text-sm" />
                       </div>
                     </SelectTrigger>
-                    <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20 max-h-[300px]">
+                    <SelectContent className="bg-white border-gray-300 max-h-[300px]">
                       {CITIES.map((city) => (
                         <SelectItem
                           key={city.code}
                           value={city.code}
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                          className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100"
                         >
-                          <div className="flex flex-col py-1">
-                            <span className="font-semibold">
-                              {city.name} ({city.code})
-                            </span>
-                            <span className="text-xs text-white/60">{city.country}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-neon-blue">{city.code}</span>
+                            <span>—</span>
+                            <span className="font-medium">{city.name}</span>
                           </div>
                         </SelectItem>
                       ))}
@@ -145,69 +150,67 @@ export function FlightSearch() {
                     variant="ghost"
                     size="icon"
                     onClick={handleSwapCities}
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-2 md:translate-y-0 z-20 w-12 h-12 rounded-full bg-gradient-to-r from-gold to-gold/80 hover:from-gold/90 hover:to-gold shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-2 md:translate-y-0 z-20 w-10 h-10 rounded-full bg-gradient-to-r from-gold to-gold/80 hover:from-gold/90 hover:to-gold shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
                   >
-                    <ArrowLeftRight className="h-5 w-5 text-black" />
+                    <ArrowLeftRight className="h-4 w-4 text-black" />
                   </Button>
                 </div>
               </div>
 
-              {/* Date and Passengers Row */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                {/* Depart Date */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <div className="space-y-2">
-                  <Label className="text-white/90 text-sm font-medium">Depart</Label>
-                  <div className="flex items-center gap-3 h-14 px-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all rounded-xl backdrop-blur-sm">
-                    <div className="w-10 h-10 rounded-lg bg-gold/20 flex items-center justify-center shrink-0">
-                      <Calendar className="h-5 w-5 text-gold" />
+                  <Label className="text-gray-700 text-xs font-medium">Depart</Label>
+                  <div className="flex items-center gap-2 h-12 px-3 bg-gray-50 border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all rounded-xl">
+                    <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center shrink-0">
+                      <Calendar className="h-4 w-4 text-gold" />
                     </div>
                     <input
                       type="date"
                       value={departDate}
                       onChange={(e) => setDepartDate(e.target.value)}
-                      className="flex-1 bg-transparent border-none outline-none text-white text-base [color-scheme:dark]"
+                      min={new Date().toISOString().split("T")[0]}
+                      className="flex-1 bg-transparent border-none outline-none text-gray-900 text-sm"
                       placeholder="dd-mm-yyyy"
                     />
                   </div>
                 </div>
 
-                {/* Return Date */}
                 {tripType === "return" && (
                   <div className="space-y-2">
-                    <Label className="text-white/90 text-sm font-medium">Return</Label>
-                    <div className="flex items-center gap-3 h-14 px-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all rounded-xl backdrop-blur-sm">
-                      <div className="w-10 h-10 rounded-lg bg-neon-blue/20 flex items-center justify-center shrink-0">
-                        <Calendar className="h-5 w-5 text-neon-blue" />
+                    <Label className="text-gray-700 text-xs font-medium">Return</Label>
+                    <div className="flex items-center gap-2 h-12 px-3 bg-gray-50 border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all rounded-xl">
+                      <div className="w-8 h-8 rounded-lg bg-neon-blue/20 flex items-center justify-center shrink-0">
+                        <Calendar className="h-4 w-4 text-neon-blue" />
                       </div>
                       <input
                         type="date"
                         value={returnDate}
                         onChange={(e) => setReturnDate(e.target.value)}
-                        className="flex-1 bg-transparent border-none outline-none text-white text-base [color-scheme:dark]"
+                        min={departDate || new Date().toISOString().split("T")[0]}
+                        className="flex-1 bg-transparent border-none outline-none text-gray-900 text-sm"
                         placeholder="dd-mm-yyyy"
                       />
                     </div>
                   </div>
                 )}
 
-                {/* Passengers */}
                 <div className="space-y-2">
-                  <Label className="text-white/90 text-sm font-medium">Passengers</Label>
+                  <Label className="text-gray-700 text-xs font-medium">Passengers</Label>
                   <Select value={passengers.toString()} onValueChange={(val) => setPassengers(Number(val))}>
-                    <SelectTrigger className="h-14 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all rounded-xl backdrop-blur-sm">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gold/20 flex items-center justify-center">
-                          <Users className="h-5 w-5 text-gold" />
+                    <SelectTrigger className="h-12 bg-gray-50 border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all rounded-xl">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-gold/20 flex items-center justify-center">
+                          <Users className="h-4 w-4 text-gold" />
                         </div>
-                        <SelectValue />
+                        <SelectValue className="text-sm" />
                       </div>
                     </SelectTrigger>
-                    <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20">
+                    <SelectContent className="bg-white border-gray-300">
                       {[1, 2, 3, 4, 5, 6].map((num) => (
                         <SelectItem
                           key={num}
                           value={num.toString()}
-                          className="text-white hover:bg-white/10 focus:bg-white/10"
+                          className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100"
                         >
                           {num} Adult{num > 1 ? "s" : ""}
                         </SelectItem>
@@ -217,53 +220,50 @@ export function FlightSearch() {
                 </div>
               </div>
 
-              {/* Airline and Class Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                {/* Airline Selection */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div className="space-y-2">
-                  <Label className="text-white/90 text-sm font-medium">Choose Airline</Label>
+                  <Label className="text-gray-700 text-xs font-medium">Choose Airline</Label>
                   <Select value={airline} onValueChange={setAirline}>
-                    <SelectTrigger className="h-14 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all rounded-xl backdrop-blur-sm text-white">
+                    <SelectTrigger className="h-12 bg-gray-50 border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all rounded-xl text-gray-900 text-sm">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20">
-                      <SelectItem value="all" className="text-white hover:bg-white/10 focus:bg-white/10">
+                    <SelectContent className="bg-white border-gray-300">
+                      <SelectItem value="all" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         All Airlines
                       </SelectItem>
-                      <SelectItem value="emirates" className="text-white hover:bg-white/10 focus:bg-white/10">
+                      <SelectItem value="emirates" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         Emirates
                       </SelectItem>
-                      <SelectItem value="qatar" className="text-white hover:bg-white/10 focus:bg-white/10">
+                      <SelectItem value="qatar" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         Qatar Airways
                       </SelectItem>
-                      <SelectItem value="singapore" className="text-white hover:bg-white/10 focus:bg-white/10">
+                      <SelectItem value="singapore" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         Singapore Airlines
                       </SelectItem>
-                      <SelectItem value="etihad" className="text-white hover:bg-white/10 focus:bg-white/10">
+                      <SelectItem value="etihad" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         Etihad Airways
                       </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
-                {/* Cabin Class */}
                 <div className="space-y-2">
-                  <Label className="text-white/90 text-sm font-medium">Choose Cabin Class</Label>
+                  <Label className="text-gray-700 text-xs font-medium">Choose Cabin Class</Label>
                   <Select value={cabinClass} onValueChange={setCabinClass}>
-                    <SelectTrigger className="h-14 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all rounded-xl backdrop-blur-sm text-white">
+                    <SelectTrigger className="h-12 bg-gray-50 border border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all rounded-xl text-gray-900 text-sm">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-black/95 backdrop-blur-xl border-white/20">
-                      <SelectItem value="economy" className="text-white hover:bg-white/10 focus:bg-white/10">
+                    <SelectContent className="bg-white border-gray-300">
+                      <SelectItem value="economy" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         Economy
                       </SelectItem>
-                      <SelectItem value="premium" className="text-white hover:bg-white/10 focus:bg-white/10">
+                      <SelectItem value="premium" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         Premium Economy
                       </SelectItem>
-                      <SelectItem value="business" className="text-white hover:bg-white/10 focus:bg-white/10">
+                      <SelectItem value="business" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         Business
                       </SelectItem>
-                      <SelectItem value="first" className="text-white hover:bg-white/10 focus:bg-white/10">
+                      <SelectItem value="first" className="text-gray-900 hover:bg-gray-100 focus:bg-gray-100">
                         First Class
                       </SelectItem>
                     </SelectContent>
@@ -271,46 +271,47 @@ export function FlightSearch() {
                 </div>
               </div>
 
-              {/* Direct Flights Checkbox */}
-              <div className="flex items-center space-x-3 mb-8 p-4 rounded-xl bg-white/5 border border-white/10">
+              <div className="flex items-center space-x-2 mb-6 p-3 rounded-xl bg-gray-50 border border-gray-300">
                 <Checkbox
                   id="direct"
                   checked={directOnly}
                   onCheckedChange={(checked) => setDirectOnly(checked as boolean)}
-                  className="border-white/40 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
+                  className="border-gray-400 data-[state=checked]:bg-gold data-[state=checked]:border-gold"
                 />
-                <Label htmlFor="direct" className="text-white cursor-pointer font-medium">
+                <Label htmlFor="direct" className="text-gray-900 cursor-pointer font-medium text-sm">
                   Direct Flights Only
                 </Label>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-4">
+              <div className="flex gap-3">
                 <Button
                   size="lg"
                   onClick={handleSearch}
-                  className="flex-1 h-14 bg-gradient-to-r from-gold via-[#f4d03f] to-gold hover:from-[#f4d03f] hover:to-gold text-black font-bold text-base rounded-xl shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-300"
+                  className="flex-1 h-12 bg-gradient-to-r from-gold via-[#f4d03f] to-gold hover:from-[#f4d03f] hover:to-gold text-black font-bold text-sm rounded-xl shadow-[0_0_30px_rgba(212,175,55,0.4)] hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-300"
                 >
-                  <Search className="mr-2 h-5 w-5" />
+                  <Search className="mr-2 h-4 w-4" />
                   SEARCH FLIGHTS
                 </Button>
                 <Button
-                  size="lg"
-                  variant="outline"
-                  onClick={() => {
-                    setFromCity("")
-                    setToCity("")
-                    setDepartDate("")
-                    setReturnDate("")
-                    setPassengers(1)
-                    setAirline("all")
-                    setCabinClass("economy")
-                    setDirectOnly(false)
-                  }}
-                  className="h-14 px-8 border-2 border-white/20 text-white hover:bg-white/10 hover:border-white/30 rounded-xl transition-all duration-300"
-                >
-                  Reset
-                </Button>
+  size="lg"
+  variant="outline"
+  onClick={() => {
+    setFromCity("")
+    setToCity("")
+    setDepartDate("")
+    setReturnDate("")
+    setPassengers(1)
+    setAirline("all")
+    setCabinClass("economy")
+    setDirectOnly(false)
+  }}
+  className="h-12 px-6 bg-white text-black border-2 border-black 
+             hover:bg-black hover:text-white 
+             rounded-xl transition-all duration-300 text-sm"
+>
+  Reset
+</Button>
+
               </div>
             </div>
           </Card>

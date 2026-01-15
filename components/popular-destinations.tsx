@@ -39,39 +39,40 @@ const destinations = [
 
 export function PopularDestinations() {
   return (
-    <section id="destinations" className="py-20 bg-gradient-to-b from-black to-dark-charcoal">
+    <section id="destinations" className="py-16 bg-gradient-to-b from-black to-dark-charcoal">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-center mb-10"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 text-balance">Popular Destinations</h2>
-          <p className="text-xl text-white/70 text-pretty">Explore the world&apos;s most exciting cities</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 text-balance">Popular Destinations</h2>
+          <p className="text-lg text-white/70 text-pretty">Explore the world&apos;s most exciting cities</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {destinations.map((destination, index) => (
             <motion.div
               key={destination.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
             >
               <Card className="glass-card border-white/10 overflow-hidden group cursor-pointer hover:border-gold/50 transition-all duration-300">
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-56 overflow-hidden">
                   <img
                     src={destination.image || "/placeholder.svg"}
                     alt={destination.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-2xl font-bold text-white mb-2">{destination.name}</h3>
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <h3 className="text-xl font-bold text-white mb-2">{destination.name}</h3>
                     <div className="flex items-center justify-between">
-                      <p className="text-gold font-semibold text-lg">Starting from {destination.price}</p>
+                      <p className="text-gold font-semibold text-base">Starting from {destination.price}</p>
                       <ArrowRight className="h-5 w-5 text-gold group-hover:translate-x-2 transition-transform" />
                     </div>
                   </div>
