@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { Building2 } from "lucide-react"
 
@@ -56,6 +57,12 @@ export function HotelBrands() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {hotelBrands.map((brand, idx) => (
+            <Link
+              key={brand.id}
+              href= "https://tripfinity.websoo.site/tour/hotel-no-2/"
+              rel="noopener noreferrer"
+              className="block"
+            >
             <motion.div
               key={brand.id}
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -99,6 +106,7 @@ export function HotelBrands() {
                 </div>
               </div>
             </motion.div>
+            </Link>
           ))}
         </div>
       </div>
