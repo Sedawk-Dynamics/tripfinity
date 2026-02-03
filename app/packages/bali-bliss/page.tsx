@@ -347,17 +347,7 @@ export default function BaliBlissPage() {
       <Footer />
 
       {/* Booking Contact Form Modal */}
-      <BookingContactForm
-        isOpen={isBookingFormOpen}
-        onClose={() => setIsBookingFormOpen(false)}
-        flightDetails={{
-          from: "DEL",
-          to: "DPS",
-          date: "2026-02-15",
-          airline: "Air India / Garuda",
-          price: "68,499"
-        }}
-      />
+      
     </>
   )
 }
