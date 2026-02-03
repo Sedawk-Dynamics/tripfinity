@@ -1,0 +1,152 @@
+"use client"
+
+import { motion } from "framer-motion"
+import { ArrowLeft, Calendar, Users, MapPin, Download, Phone, Check, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import Link from "next/link"
+import Image from "next/image"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
+
+export default function JyotirlingaYatra() {
+  return (
+    <>
+      <Header />
+      <div className="min-h-screen bg-gradient-to-b from-[#0a0e27] via-[#0c1929] to-[#1e3a5f]">
+        <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0">
+            <Image src="/jyotirlinga-temples-collage.jpg" alt="12 Jyotirlinga Temples" fill className="object-cover" priority />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#0a0e27]" />
+          </div>
+          <div className="relative z-10 container mx-auto px-4 text-center">
+            <Link href="/packages"><Button variant="ghost" className="mb-6 text-white hover:text-gold"><ArrowLeft className="mr-2 h-4 w-4" />Back to Packages</Button></Link>
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-5xl md:text-6xl font-bold text-white mb-4">
+              12 Jyotirlinga Darshan Yatra
+            </motion.h1>
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-xl text-white/80 max-w-2xl mx-auto">
+              Complete Spiritual Circuit of Lord Shiva's 12 Sacred Shrines
+            </motion.p>
+          </div>
+        </section>
+
+        <section className="py-12 bg-gradient-to-b from-[#1a1f3a] to-[#0a0e27] relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <motion.div className="absolute top-20 left-10 w-96 h-96 bg-gold/5 rounded-full blur-3xl" animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ duration: 8, repeat: Infinity }} />
+            <motion.div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ duration: 10, repeat: Infinity, delay: 1 }} />
+          </div>
+
+          <div className="container mx-auto px-4 relative z-10">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
+              <Card className="bg-white border-gray-200 p-8 shadow-lg">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                  <div>
+                    <p className="text-gray-600 text-sm mb-2">Package Price</p>
+                    <p className="text-5xl font-bold text-gold mb-2">₹89,999</p>
+                    <p className="text-gray-600 text-sm">per person (Twin Sharing)</p>
+                    <p className="text-orange-600 text-sm mt-1">Complete Spiritual Circuit | All 12 Jyotirlingas</p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex items-center gap-2 text-gray-700"><Calendar className="h-5 w-5 text-gold" /><span className="font-medium">15 Days / 14 Nights</span></div>
+                    <div className="flex items-center gap-2 text-gray-700"><MapPin className="h-5 w-5 text-gold" /><span className="font-medium">Pan India</span></div>
+                  </div>
+                 <a href="tel:+919220863958" > <Button className="bg-gold hover:bg-gold/90 text-black px-8 py-6 text-lg"><Phone className="mr-2 h-5 w-5" /> Book Now</Button> </a>
+                </div>
+              </Card>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mb-12">
+              <h2 className="text-3xl font-bold text-white mb-6">12 Sacred Shrines</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { src: "/somnath-temple-gujarat.jpg", alt: "Somnath, Gujarat" },
+                  { src: "/kedarnath-temple-snow-mountains.jpg", alt: "Kedarnath, Uttarakhand" },
+                  { src: "/kashi-vishwanath-temple.jpg", alt: "Kashi Vishwanath, Varanasi" },
+                  { src: "/jyotirlinga-temples-collage.jpg", alt: "All Jyotirlingas" },
+                ].map((img, idx) => (
+                  <div key={idx} className="relative h-48 rounded-lg overflow-hidden group">
+                    <Image src={img.src || "/placeholder.svg"} alt={img.alt} fill className="object-cover group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mb-12">
+              <h2 className="text-3xl font-bold text-white mb-6 text-center">Your 15-Day Spiritual Journey</h2>
+              <div className="space-y-4">
+                {[
+                  { day: "1-2", title: "Somnath & Nageshwar (Gujarat)", desc: "Visit the first Jyotirlinga at Somnath and Nageshwar. Evening aarti at Somnath temple by the Arabian Sea." },
+                  { day: "3-4", title: "Mahakaleshwar & Omkareshwar (MP)", desc: "Divine darshan at Mahakaleshwar in Ujjain and Omkareshwar on Narmada island." },
+                  { day: "5-6", title: "Kashi Vishwanath & Vaidyanath (UP/Jharkhand)", desc: "Holy darshan at Kashi Vishwanath Varanasi and Vaidyanath in Deoghar." },
+                  { day: "7-8", title: "Kedarnath & Tungnath Circuit", desc: "Himalayan pilgrimage to Kedarnath with helicopter option. Visit sacred Panch Kedar." },
+                  { day: "9-10", title: "Bhimashankar & Trimbakeshwar (Maharashtra)", desc: "Visit Bhimashankar in Sahyadri hills and Trimbakeshwar near Nashik, source of Godavari." },
+                  { day: "11-12", title: "Grishneshwar & Aundha Nagnath", desc: "Darshan at Grishneshwar near Ellora Caves and Aundha Nagnath in Hingoli." },
+                  { day: "13-14", title: "Mallikarjuna & Rameshwaram (South)", desc: "Southern circuit - Mallikarjuna in Srisailam and Rameshwaram in Tamil Nadu." },
+                  { day: "15", title: "Return Journey", desc: "Complete your spiritual circuit with memories and blessings from all 12 Jyotirlingas." }
+                ].map((day, idx) => (
+                  <Card key={idx} className="bg-white border-gray-200 p-6 shadow-md hover:shadow-xl transition-all">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-gold to-orange-400 rounded-full flex items-center justify-center text-white font-bold text-sm">{day.day}</div>
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{day.title}</h3>
+                        <p className="text-gray-700 text-sm">{day.desc}</p>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mb-12">
+              <h2 className="text-3xl font-bold text-white mb-6 text-center">Why Choose This Yatra?</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                  { title: "Complete Spiritual Circuit", desc: "Visit all 12 Jyotirlingas - a rare opportunity for complete darshan in one comprehensive tour.", bgColor: "bg-white" },
+                  { title: "Expert Guidance", desc: "Experienced tour managers and priests to guide you through rituals and significance of each shrine.", bgColor: "bg-blue-50" },
+                  { title: "Comfortable Journey", desc: "AC transportation, quality hotels, and well-planned itinerary for a comfortable pilgrimage.", bgColor: "bg-amber-50" },
+                  { title: "Spiritual Merit", desc: "Complete the sacred circuit for moksha and liberation as per Hindu scriptures and traditions.", bgColor: "bg-pink-50" }
+                ].map((item, idx) => (
+                  <Card key={idx} className={`${item.bgColor} border-gray-200 p-6 shadow-md hover:shadow-xl hover:scale-105 transition-all`}>
+                    <h3 className="text-lg font-bold text-orange-600 mb-2">{item.title}</h3>
+                    <p className="text-gray-700 text-sm">{item.desc}</p>
+                  </Card>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }} className="mb-12 grid md:grid-cols-2 gap-6">
+              <Card className="bg-white border-gray-200 p-6 shadow-md">
+                <h3 className="text-xl font-bold text-green-600 mb-4 flex items-center gap-2"><Check className="h-6 w-6" /> Inclusions</h3>
+                <ul className="space-y-2 text-gray-700 text-sm">
+                  {["14 nights accommodation", "Daily breakfast & dinner", "All temple entrance fees", "AC transportation throughout", "Professional tour guide", "Airport/railway transfers"].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2"><Check className="h-4 w-4 text-green-600 mt-0.5" /><span>{item}</span></li>
+                  ))}
+                </ul>
+              </Card>
+              <Card className="bg-white border-gray-200 p-6 shadow-md">
+                <h3 className="text-xl font-bold text-red-600 mb-4 flex items-center gap-2"><X className="h-6 w-6" /> Exclusions</h3>
+                <ul className="space-y-2 text-gray-700 text-sm">
+                  {["Personal expenses", "Lunch meals", "Travel insurance", "Tips & gratuities", "Any services not mentioned"].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2"><X className="h-4 w-4 text-red-600 mt-0.5" /><span>{item}</span></li>
+                  ))}
+                </ul>
+              </Card>
+            </motion.div>
+
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }} className="text-center">
+              <Card className="bg-white border-gray-200 p-12 shadow-lg">
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">Begin Your Sacred Journey</h2>
+                <p className="text-gray-700 mb-8 max-w-2xl mx-auto">Complete the divine circuit of all 12 Jyotirlingas and receive blessings from Lord Shiva.</p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  {/* <Button className="bg-gradient-to-r from-gold to-[#f4d03f] hover:from-gold/90 hover:to-[#f4d03f]/90 text-black px-8 py-6 text-lg"><Download className="mr-2 h-5 w-5" />Download Brochure</Button> */}
+                  <a href="tel:+919220863958"> <Button className="border-2 border-gold text-gold hover:bg-gold/10 px-8 py-6 text-lg bg-transparent">Contact for Booking</Button></a>
+                </div>
+              </Card>
+            </motion.div>
+          </div>
+        </section>
+      </div>
+      <Footer />
+    </>
+  )
+}
